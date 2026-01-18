@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Inventory - GM Tailors</title>
+  <link rel="stylesheet" href="css/style1.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+  <div class="dashboard">
+    <aside class="sidebar">
+      <h3>GM Tailors</h3>
+      <ul>
+        <li><a href="admin.html">Dashboard</a></li>
+        <li><a href="orders.html">Orders</a></li>
+        <li><a href="#">Customers</a></li>
+        <li><a href="inventory.html">Inventory</a></li>
+        <li><a href="about.html">Services</a></li>
+        <li><a href="index.html">Logout</a></li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <header>
+        <h2>Inventory</h2>
+        <p>Track fabrics, accessories, and ready items.</p>
+      </header>
+
+      <section class="mb-4">
+        <h4>Add New Inventory Item</h4>
+        <form id="inventoryForm" class="row g-3">
+          <div class="col-md-3"><input type="text" class="form-control" placeholder="Item Name" required id="itemName" /></div>
+          <div class="col-md-2">
+            <select class="form-select" id="category" required>
+              <option value="">Category</option>
+              <option value="Fabric">Fabric</option>
+              <option value="Accessory">Accessory</option>
+              <option value="Ready Item">Ready Item</option>
+            </select>
+          </div>
+          <div class="col-md-2"><input type="number" class="form-control" placeholder="Quantity" required id="quantity" /></div>
+          <div class="col-md-2"><input type="text" class="form-control" placeholder="Unit (e.g. meters)" required id="unit" /></div>
+          <div class="col-md-2"><input type="number" class="form-control" placeholder="Price per Unit" required id="price" /></div>
+          <div class="col-md-3"><input type="date" class="form-control" required id="restockDate" /></div>
+          <div class="col-md-2"><button type="submit" class="btn btn-success w-100">Add Item</button></div>
+        </form>
+      </section>
+
+      <section>
+        <h4>Inventory List</h4>
+        <table class="table table-bordered table-striped">
+          <thead class="table-dark">
+            <tr>
+              <th>Item Name</th>
+              <th>Category</th>
+              <th>Quantity</th>
+              <th>Unit</th>
+              <th>Price</th>
+              <th>Restock Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="inventoryTableBody"></tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    window.onload = function () {
+      const savedItems = JSON.parse(localStorage.getItem("inventory")) || [];
+      savedItems.forEach(item => appendInventoryRow(item));
+    };
+
+    document.getElementById("inventoryForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const item = {
+        name: document.getElementById("itemName").value,
+        category: document.getElementById("category").value,
+        quantity: document.getElementById("quantity").value,
+        unit: document.getElementById("unit").value,
+        price: document.getElementById("price").value,
+        restockDate: document.getElementById("restockDate").value
+      };
+
+      const inventory = JSON.parse(localStorage.getItem("inventory")) || [];
+      inventory.push(item);
+      localStorage.setItem("inventory", JSON.stringify(inventory));
+
+      appendInventoryRow(item);
+      this.reset();
+    });
+
+    function appendInventoryRow(item) {
+      const table = document.getElementById("inventoryTableBody");
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${item.name}</td>
+        <td>${item.category}</td>
+        <td>${item.quantity}</td>
+        <td>${item.unit}</td>
+        <td>${item.price}</td>
+        <td>${item.restockDate}</td>
+        <td><button class="btn btn-sm btn-danger" onclick="deleteItem(this)">Delete</button></td>
+      `;
+
+      table.appendChild(row);
+    }
+
+    function deleteItem(button) {
+      const row = button.closest("tr");
+      const name = row.children[0].textContent;
+      const category = row.children[1].textContent;
+
+      let inventory = JSON.parse(localStorage.getItem("inventory")) || [];
+      inventory = inventory.filter(item => !(item.name === name && item.category === category));
+      localStorage.setItem("inventory", JSON.stringify(inventory));
+
+      row.remove();
+    }
+  </script>
+</body>
+</html>

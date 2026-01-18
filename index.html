@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GM Tailors</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo interactive-logo">
+        <img src="assets/logo.png" alt="GM Tailors Logo" />
+        <span class="tagline"><b>Elegance in Every Stitch</b></span>
+      </div>
+      <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="customer.html">Reviews</a>
+        <a href="admin.html">Admin</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="welcome">
+        <div class="welcome-container">
+          <div class="welcome-text">
+            <h1>Welcome to GM Tailors</h1>
+            <p>Crafting elegance, one stitch at a time.</p>
+            <a href="about.html" class="btn btn-primary">Explore Our Craft</a>
+          </div>
+          <div class="welcome-image">
+            <img src="assets/headimg.webp" alt="Tailoring Showcase" />
+          </div>
+        </div>
+
+        <br /><br />
+
+        <div class="tailor-products">
+          <h1>Our Creations</h1>
+          <div class="product-grid">
+            <div class="product-item">
+              <img src="assets/suit.png" alt="Tailored Suit" />
+              <p>Elegant Suits</p>
+            </div>
+            <div class="product-item">
+              <img src="assets/shirt.png" alt="Tailored Shirt" />
+              <p>Custom Shirts</p>
+            </div>
+            <div class="product-item">
+              <img src="assets/pant.png" alt="Tailored Pants" />
+              <p>Perfect-Fit Pants</p>
+            </div>
+            <!-- Add more items as needed -->
+          </div>
+        </div>
+
+        <br /><br /><br />
+
+        <div class="feedback-section">
+          <div class="feedback-left">
+            <h2>We Value Your Feedback</h2>
+            <p>
+              At GM Tailors, every stitch is a promise of quality. Share your
+              experience and help us tailor excellence for every customer.
+            </p>
+          </div>
+          <div class="feedback-right">
+            <form id="feedbackForm">
+              <label for="name">Your Name:</label>
+              <input type="text" id="name" required />
+
+              <label for="feedback">Your Feedback:</label>
+              <textarea id="feedback" rows="4" required></textarea>
+
+              <label for="rating">Rate Us:</label>
+              <div class="star-rating">
+                <span data-value="1">★</span>
+                <span data-value="2">★</span>
+                <span data-value="3">★</span>
+                <span data-value="4">★</span>
+                <span data-value="5">★</span>
+              </div>
+
+              <input type="hidden" id="rating" value="0" />
+              <button type="submit" class="btn btn-primary">
+                Submit Feedback
+              </button>
+            </form>
+            <div id="thankYouMessage" class="hidden">
+              🎉 Thank you for your feedback! – GM Tailors
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="social">
+        <a href="https://facebook.com/gmtailors" target="_blank">Facebook</a>
+        <a href="https://instagram.com/gmtailors" target="_blank">Instagram</a>
+        <a href="https://wa.me/919423706998" target="_blank">WhatsApp</a>
+      </div>
+      <div class="info-bar">
+        <p>
+          📞 +91-9423706998 | 👔 Suits, Shirts, Pants | 🕙 Open: 9 AM - 8 PM
+        </p>
+      </div>
+      <p>📍 Contact: gmtailors@gmail.com</p>
+      <p>© 2025 GM Tailors. All rights reserved.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>

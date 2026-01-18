@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Orders - GM Tailors</title>
+    <link rel="stylesheet" href="css/style1.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="dashboard">
+      <aside class="sidebar">
+        <h3>GM Tailors</h3>
+        <ul>
+          <li><a href="admin.html">Dashboard</a></li>
+          <li><a href="orders.html">Orders</a></li>
+          <li><a href="#">Customers</a></li>
+          <li><a href="inventory.html">Inventory</a></li>
+          <li><a href="about.html">Services</a></li>
+          <li><a href="index.html" id="logoutBtn">Logout</a></li>
+        </ul>
+      </aside>
+
+      <main class="main-content">
+        <header>
+          <h2>Orders</h2>
+          <p>Manage customer measurements and order details.</p>
+        </header>
+
+        <section class="mb-4">
+          <button class="btn btn-dark" onclick="showMeasurementForm()">
+            ➕ Take New Customer Measurement
+          </button>
+        </section>
+
+        <!-- Measurement Form -->
+        <section
+          id="measurementForm"
+          class="card p-4 shadow-lg mb-4"
+          style="display: none"
+        >
+          <h4 class="mb-3">Customer Details</h4>
+          <form id="orderForm">
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Name"
+                  required
+                  id="name"
+                />
+              </div>
+              <div class="col-md-4">
+                <input
+                  type="tel"
+                  class="form-control"
+                  placeholder="Phone"
+                  required
+                  id="phone"
+                />
+              </div>
+              <div class="col-md-4">
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder="Email"
+                  required
+                  id="email"
+                />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Address"
+                  required
+                  id="address"
+                />
+              </div>
+              <div class="col-md-6">
+                <input type="date" class="form-control" required id="date" />
+              </div>
+            </div>
+
+            <h5 class="mt-4">Select Garment Type</h5>
+            <select
+              class="form-select mb-3"
+              id="garmentType"
+              onchange="loadMeasurementFields()"
+              required
+            >
+              <option value="">-- Select --</option>
+              <option value="shirt">Shirt</option>
+              <option value="pant">Pant</option>
+              <option value="suit">Suit</option>
+            </select>
+
+            <div id="measurementFields" class="row g-3"></div>
+
+            <button type="submit" class="btn btn-success mt-4">
+              Save Measurement
+            </button>
+          </form>
+        </section>
+
+        <!-- Order Table -->
+        <section>
+          <h4 class="mb-3">Order Receipts</h4>
+          <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+              <tr>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+                <th>Address</th>
+                <th>Date</th>
+                <th>Garment</th>
+                <th>Measurements</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="orderTableBody"></tbody>
+          </table>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      // Load saved orders from localStorage
+      window.onload = function () {
+        const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
+        savedOrders.forEach((order) => appendOrderRow(order));
+      };
+
+      function showMeasurementForm() {
+        document.getElementById("measurementForm").style.display = "block";
+      }
+
+      function loadMeasurementFields() {
+        const type = document.getElementById("garmentType").value;
+        const container = document.getElementById("measurementFields");
+        container.innerHTML = "";
+
+        const fields = {
+          shirt: ["Chest", "Waist", "Sleeve Length", "Shoulder"],
+          pant: ["Waist", "Hip", "Inseam", "Length"],
+          suit: [
+            "Chest",
+            "Waist",
+            "Sleeve",
+            "Shoulder",
+            "Jacket Length",
+            "Pant Length",
+          ],
+        };
+
+        fields[type]?.forEach((label) => {
+          const div = document.createElement("div");
+          div.className = "col-md-4";
+          div.innerHTML = `<input type="text" class="form-control" placeholder="${label}" required name="${label}" />`;
+          container.appendChild(div);
+        });
+      }
+
+      document
+        .getElementById("orderForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const order = {
+            name: document.getElementById("name").value,
+            phone: document.getElementById("phone").value,
+            email: document.getElementById("email").value,
+            address: document.getElementById("address").value,
+            date: document.getElementById("date").value,
+            garment: document.getElementById("garmentType").value,
+            measurements: Array.from(
+              document.querySelectorAll("#measurementFields input")
+            )
+              .map((input) => `${input.placeholder}: ${input.value}`)
+              .join(", "),
+          };
+
+          // Save to localStorage
+          const orders = JSON.parse(localStorage.getItem("orders")) || [];
+          orders.push(order);
+          localStorage.setItem("orders", JSON.stringify(orders));
+
+          appendOrderRow(order);
+          this.reset();
+          document.getElementById("measurementFields").innerHTML = "";
+          document.getElementById("measurementForm").style.display = "none";
+        });
+
+      function appendOrderRow(order) {
+        const table = document.getElementById("orderTableBody");
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+      <td>${order.name}</td>
+      <td>${order.phone}</td>
+      <td>${order.email}</td>
+      <td>${order.address}</td>
+      <td>${order.date}</td>
+      <td>${order.garment}</td>
+      <td>${order.measurements}</td>
+      <td><button class="btn btn-sm btn-danger" onclick="deleteOrder(this)">Delete</button></td>
+    `;
+
+        table.appendChild(row);
+      }
+
+      function deleteOrder(button) {
+        const row = button.closest("tr");
+        const name = row.children[0].textContent;
+        const phone = row.children[1].textContent;
+
+        // Remove from localStorage
+        let orders = JSON.parse(localStorage.getItem("orders")) || [];
+        orders = orders.filter(
+          (order) => !(order.name === name && order.phone === phone)
+        );
+        localStorage.setItem("orders", JSON.stringify(orders));
+
+        // Remove from table
+        row.remove();
+      }
+    </script>
+  </body>
+</html>

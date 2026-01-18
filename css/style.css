@@ -1,0 +1,339 @@
+/* General Styling */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f4f4;
+  scroll-behavior: smooth;
+}
+
+/* Header Styling */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 30px;
+  background: linear-gradient(to right, #1a1a1a, #333);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  animation: slideDown 0.8s ease-in-out;
+}
+
+/* Logo Interactivity */
+.interactive-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.interactive-logo:hover {
+  transform: scale(1.05);
+}
+
+.interactive-logo img {
+  height: 100px;
+  width: 80px;
+  animation: pulse 2s infinite;
+  filter: drop-shadow(0 0 5px #ffffff9d);
+}
+
+.tagline {
+  font-size: 1.1em;
+  color: #ccc;
+  font-style: italic;
+  animation: fadeIn 2s ease-in;
+}
+
+/* Navigation Styling */
+nav a {
+  color: #f0f0f0;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background-color: #f0f0f0;
+  transition: width 0.3s;
+}
+
+nav a:hover {
+  color: #ffffff;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* Welcome Section */
+main {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.welcome-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 40px;
+  animation: fadeUp 1s ease-in-out;
+}
+
+.welcome-text {
+  flex: 1;
+  font-size: 26px;
+  animation: fadeUp 1s ease-in-out;
+}
+
+.welcome-text h1 {
+  font-size: 2.5em;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+}
+
+.welcome-text p {
+  font-size: 1.2em;
+  color: #555;
+}
+
+.welcome-image img {
+  width: 600px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.welcome-image img:hover {
+  transform: scale(1.03);
+}
+
+/* Button Styling */
+.btn-primary {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #1a1a1a;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #333;
+  transform: scale(1.05);
+}
+
+/* Product Grid */
+.tailor-products h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  animation: fadeUp 1s ease-in-out;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  justify-items: center;
+}
+
+.product-item {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 350px;
+  animation: fadeUp 1s ease-in-out;
+}
+
+.product-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0,0,0,0.2);
+}
+
+.product-item img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 50px;
+  transition: transform 0.3s ease;
+}
+
+.product-item img:hover {
+  transform: scale(1.02);
+}
+
+.product-item p {
+  margin-top: 12px;
+  font-size: 1.1em;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Footer Styling */
+footer {
+  background: #1a1a1a;
+  color: white;
+  padding: 30px 20px;
+  text-align: center;
+  animation: fadeIn 1.5s ease-in;
+}
+
+footer .social a {
+  margin: 0 10px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+footer .social a:hover {
+  color: #ccc;
+}
+
+.info-bar {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes fadeUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Feedback Section Styling */
+.feedback-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 60px 40px;
+  background: linear-gradient(to right, #ffffff, #f4f4f4);
+  border-top: 3px solid #1a1a1a;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  animation: fadeUp 1s ease-in-out;
+  gap: 40px;
+}
+
+.feedback-left {
+  flex: 1;
+  min-width: 300px;
+  padding-right: 30px;
+  animation: fadeUp 1s ease-in-out;
+}
+
+.feedback-left h2 {
+  font-size: 2.2em;
+  color: #1a1a1a;
+  margin-bottom: 15px;
+}
+
+.feedback-left p {
+  font-size: 1.2em;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Feedback Form */
+.feedback-right {
+  flex: 1;
+  min-width: 300px;
+  padding-left: 30px;
+  animation: fadeUp 1s ease-in-out;
+}
+
+.feedback-right form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.feedback-right label {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+}
+
+.feedback-right input,
+.feedback-right textarea {
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff;
+}
+
+.feedback-right input:focus,
+.feedback-right textarea:focus {
+  border-color: #1a1a1a;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  outline: none;
+}
+
+/* Star Rating */
+.star-rating {
+  display: flex;
+  gap: 10px;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.star-rating span {
+  color: #ccc;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.star-rating span:hover,
+.star-rating span.selected {
+  color: gold;
+  transform: scale(1.2);
+}
+
+/* Thank You Message */
+#thankYouMessage {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  color: green;
+  font-weight: bold;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.hidden {
+  display: none;
+}
