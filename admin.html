@@ -1,75 +1,413 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>GM Tailors Dashboard</title>
-  <link rel="stylesheet" href="css/style1.css" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
-</head>
-<body>
-  <!-- Login Section -->
-  <div id="loginSection" class="container mt-5 animate__animated animate__fadeInDown" style="display: none;">
-    <div class="card p-4 shadow-lg">
-      <h2 class="text-center mb-4">Admin Sign In</h2>
-      <form id="loginForm">
-        <div class="form-floating mb-3">
-          <input type="text" id="username" class="form-control" placeholder="Username" required />
-          <label for="username">Username</label>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GM Tailors Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style1.css" />
+  </head>
+  <body class="admin-body">
+    <div class="admin-shell">
+      <section id="loginSection" class="login-panel">
+        <div class="login-card reveal-up">
+          <p class="overline">GM Tailors Control Room</p>
+          <h1>Admin Dashboard</h1>
+          <p class="login-copy">
+            Manage live orders, customer profiles, inventory flow, and service
+            pricing from one workspace.
+          </p>
+          <form id="loginForm" class="login-form">
+            <label>
+              <span>Username</span>
+              <input type="text" id="username" placeholder="admin" required />
+            </label>
+            <label>
+              <span>Password</span>
+              <input
+                type="password"
+                id="password"
+                placeholder="Enter secure password"
+                required
+              />
+            </label>
+            <button type="submit" class="primary-btn" id="loginSubmitBtn">Sign In</button>
+            <p id="loginMessage" class="form-message" aria-live="polite"></p>
+          </form>
+          <div class="login-note">
+            Demo access: <strong>admin</strong> / <strong>1234</strong>
+          </div>
         </div>
-        <div class="form-floating mb-3">
-          <input type="password" id="password" class="form-control" placeholder="Password" required />
-          <label for="password">Password</label>
+        <div class="login-visual reveal-up" aria-hidden="true">
+          <div class="visual-card">
+            <span class="status-pill">Live studio status</span>
+            <h2>Precision tailoring. Measurable operations.</h2>
+            <ul class="visual-stats">
+              <li><strong data-login-stat="orders">128</strong><span>Orders archived</span></li>
+              <li><strong data-login-stat="clients">84</strong><span>Premium clients</span></li>
+              <li><strong data-login-stat="delivery">96%</strong><span>On-time delivery</span></li>
+            </ul>
+          </div>
         </div>
-        <button type="submit" class="btn btn-dark w-100">Login</button>
-      </form>
-      <p id="loginMessage" class="text-danger mt-3 text-center"></p>
+      </section>
+
+      <div id="dashboardSection" class="dashboard-layout" hidden>
+        <aside class="sidebar">
+          <div>
+            <p class="overline">GM Tailors</p>
+            <h2>Admin Suite</h2>
+          </div>
+          <nav class="sidebar-nav">
+            <button type="button" class="nav-link is-active" data-section="dashboard">
+              Dashboard
+            </button>
+            <button type="button" class="nav-link" data-section="orders">Orders</button>
+            <button type="button" class="nav-link" data-section="customers">Customers</button>
+            <button type="button" class="nav-link" data-section="inventory">Inventory</button>
+            <button type="button" class="nav-link" data-section="services">Services</button>
+          </nav>
+          <div class="sidebar-footer">
+            <div class="mini-card">
+              <span>Studio health</span>
+              <strong id="sidebarHealth">Stable</strong>
+            </div>
+            <button type="button" id="logoutBtn" class="ghost-btn">Logout</button>
+          </div>
+        </aside>
+
+        <main class="main-panel">
+          <header class="topbar">
+            <div>
+              <p class="overline">Operations Overview</p>
+              <h1>GM Tailoring business dashboard</h1>
+            </div>
+            <div class="topbar-actions">
+              <input
+                id="globalSearch"
+                type="search"
+                placeholder="Search orders, customers, inventory"
+              />
+              <div class="date-chip" id="todayChip"></div>
+            </div>
+          </header>
+
+          <section class="panel-section is-active" data-panel="dashboard">
+            <div class="hero-grid">
+              <article class="hero-card">
+                <div>
+                  <p class="overline">At a glance</p>
+                  <h2>Production is on track.</h2>
+                  <p id="heroSummary" class="muted-copy"></p>
+                </div>
+                <div class="hero-progress">
+                  <div class="progress-ring">
+                    <span id="deliveryRate">0%</span>
+                  </div>
+                  <p>On-time delivery ratio</p>
+                </div>
+              </article>
+              <article class="activity-card">
+                <div class="section-heading">
+                  <h3>Recent activity</h3>
+                </div>
+                <div id="activityFeed" class="activity-feed"></div>
+              </article>
+            </div>
+
+            <div class="stats-grid" id="statsGrid"></div>
+
+            <div class="content-grid">
+              <article class="surface-card">
+                <div class="section-heading">
+                  <h3>Upcoming deliveries</h3>
+                  <span class="eyebrow-badge">Priority queue</span>
+                </div>
+                <div id="deliveryQueue" class="stack-list"></div>
+              </article>
+
+              <article class="surface-card">
+                <div class="section-heading">
+                  <h3>Low stock alerts</h3>
+                  <span class="eyebrow-badge alert">Needs restock</span>
+                </div>
+                <div id="lowStockList" class="stack-list"></div>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel-section" data-panel="orders">
+            <div class="section-heading section-heading-space">
+              <div>
+                <p class="overline">Order Desk</p>
+                <h2>Manage live tailoring orders</h2>
+              </div>
+              <div class="toolbar">
+                <select id="orderStatusFilter">
+                  <option value="all">All statuses</option>
+                  <option value="Pending">Pending</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Ready">Ready</option>
+                  <option value="Delivered">Delivered</option>
+                </select>
+              </div>
+            </div>
+
+            <article class="surface-card">
+              <form id="orderForm" class="form-grid">
+                <input type="hidden" id="orderId" />
+                <label>
+                  <span>Customer name</span>
+                  <input id="orderCustomer" type="text" required />
+                </label>
+                <label>
+                  <span>Phone</span>
+                  <input id="orderPhone" type="tel" required />
+                </label>
+                <label>
+                  <span>Email</span>
+                  <input id="orderEmail" type="email" required />
+                </label>
+                <label>
+                  <span>Garment</span>
+                  <select id="orderGarment" required>
+                    <option value="">Select garment</option>
+                    <option value="Suit">Suit</option>
+                    <option value="Shirt">Shirt</option>
+                    <option value="Pant">Pant</option>
+                    <option value="Sherwani">Sherwani</option>
+                    <option value="Blazer">Blazer</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Status</span>
+                  <select id="orderStatus" required>
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Ready">Ready</option>
+                    <option value="Delivered">Delivered</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Trial / delivery date</span>
+                  <input id="orderDueDate" type="date" required />
+                </label>
+                <label>
+                  <span>Amount (INR)</span>
+                  <input id="orderAmount" type="number" min="0" required />
+                </label>
+                <label>
+                  <span>Measurements</span>
+                  <input
+                    id="orderMeasurements"
+                    type="text"
+                    placeholder="Chest 40, Waist 34, Sleeve 25"
+                    required
+                  />
+                </label>
+                <label class="wide">
+                  <span>Notes</span>
+                  <textarea
+                    id="orderNotes"
+                    rows="3"
+                    placeholder="Fabric, design notes, alteration requests"
+                  ></textarea>
+                </label>
+                <div class="form-actions wide">
+                  <button type="submit" class="primary-btn" id="orderSubmitBtn">
+                    Save Order
+                  </button>
+                  <button type="button" class="ghost-btn" id="orderResetBtn">
+                    Reset
+                  </button>
+                </div>
+              </form>
+            </article>
+
+            <article class="surface-card">
+              <div class="table-toolbar">
+                <h3>Order register</h3>
+                <p class="muted-copy">Edit status inline or update full details.</p>
+              </div>
+              <div class="table-shell">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Customer</th>
+                      <th>Garment</th>
+                      <th>Due</th>
+                      <th>Status</th>
+                      <th>Amount</th>
+                      <th>Measurements</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ordersTableBody"></tbody>
+                </table>
+              </div>
+            </article>
+          </section>
+
+          <section class="panel-section" data-panel="customers">
+            <div class="section-heading section-heading-space">
+              <div>
+                <p class="overline">Customer Book</p>
+                <h2>Profiles, spend and preferences</h2>
+              </div>
+            </div>
+
+            <div class="content-grid">
+              <article class="surface-card">
+                <div class="table-toolbar">
+                  <h3>Customer directory</h3>
+                  <p class="muted-copy">Auto-built from orders, with lifetime value.</p>
+                </div>
+                <div id="customerCards" class="customer-grid"></div>
+              </article>
+
+              <article class="surface-card">
+                <div class="section-heading">
+                  <h3>Top customers</h3>
+                </div>
+                <div id="topCustomers" class="stack-list"></div>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel-section" data-panel="inventory">
+            <div class="section-heading section-heading-space">
+              <div>
+                <p class="overline">Inventory Control</p>
+                <h2>Materials, stock value and restock pipeline</h2>
+              </div>
+              <div class="toolbar">
+                <select id="inventoryCategoryFilter">
+                  <option value="all">All categories</option>
+                  <option value="Fabric">Fabric</option>
+                  <option value="Accessory">Accessory</option>
+                  <option value="Ready Item">Ready Item</option>
+                </select>
+              </div>
+            </div>
+
+            <article class="surface-card">
+              <form id="inventoryForm" class="form-grid">
+                <input type="hidden" id="inventoryId" />
+                <label>
+                  <span>Item name</span>
+                  <input id="inventoryName" type="text" required />
+                </label>
+                <label>
+                  <span>Category</span>
+                  <select id="inventoryCategory" required>
+                    <option value="">Select category</option>
+                    <option value="Fabric">Fabric</option>
+                    <option value="Accessory">Accessory</option>
+                    <option value="Ready Item">Ready Item</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Quantity</span>
+                  <input id="inventoryQuantity" type="number" min="0" required />
+                </label>
+                <label>
+                  <span>Unit</span>
+                  <input id="inventoryUnit" type="text" placeholder="meters / pcs" required />
+                </label>
+                <label>
+                  <span>Cost per unit</span>
+                  <input id="inventoryPrice" type="number" min="0" required />
+                </label>
+                <label>
+                  <span>Restock date</span>
+                  <input id="inventoryRestockDate" type="date" required />
+                </label>
+                <label>
+                  <span>Supplier</span>
+                  <input id="inventorySupplier" type="text" required />
+                </label>
+                <label>
+                  <span>Reorder level</span>
+                  <input id="inventoryThreshold" type="number" min="0" required />
+                </label>
+                <div class="form-actions wide">
+                  <button type="submit" class="primary-btn" id="inventorySubmitBtn">
+                    Save Item
+                  </button>
+                  <button type="button" class="ghost-btn" id="inventoryResetBtn">
+                    Reset
+                  </button>
+                </div>
+              </form>
+            </article>
+
+            <article class="surface-card">
+              <div class="table-toolbar">
+                <h3>Inventory register</h3>
+                <p class="muted-copy">Track stock and supplier readiness.</p>
+              </div>
+              <div class="table-shell">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Category</th>
+                      <th>Qty</th>
+                      <th>Unit</th>
+                      <th>Supplier</th>
+                      <th>Restock</th>
+                      <th>Value</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="inventoryTableBody"></tbody>
+                </table>
+              </div>
+            </article>
+          </section>
+
+          <section class="panel-section" data-panel="services">
+            <div class="section-heading section-heading-space">
+              <div>
+                <p class="overline">Service Catalogue</p>
+                <h2>Pricing, turnaround and premium positioning</h2>
+              </div>
+            </div>
+
+            <article class="surface-card">
+              <form id="serviceForm" class="form-grid">
+                <label>
+                  <span>Service name</span>
+                  <input id="serviceName" type="text" required />
+                </label>
+                <label>
+                  <span>Price (INR)</span>
+                  <input id="servicePrice" type="number" min="0" required />
+                </label>
+                <label>
+                  <span>Timeline</span>
+                  <input id="serviceTimeline" type="text" placeholder="5 days" required />
+                </label>
+                <label class="wide">
+                  <span>Description</span>
+                  <textarea id="serviceDescription" rows="3" required></textarea>
+                </label>
+                <div class="form-actions wide">
+                  <button type="submit" class="primary-btn">Add Service</button>
+                </div>
+              </form>
+            </article>
+
+            <div id="servicesGrid" class="services-grid"></div>
+          </section>
+        </main>
+      </div>
     </div>
-  </div>
 
-  <!-- Dashboard Section -->
-  <div id="dashboardSection" style="display: none;">
-    <div class="dashboard">
-      <aside class="sidebar">
-        <h3>GM Tailors</h3>
-        <ul>
-          <li><a href="admin.html">Dashboard</a></li>
-          <li><a href="orders.html">Orders</a></li>
-          <li><a href="#">Customers</a></li>
-          <li><a href="inventory.html">Inventory</a></li>
-          <li><a href="about.html">Services</a></li>
-          <li><a href="index.html" id="logoutBtn">Logout</a></li>
-        </ul>
-      </aside>
-
-      <main class="main-content">
-        <header>
-          <h2>Welcome, Admin</h2>
-          <p>Manage your tailoring business efficiently.</p>
-        </header>
-
-        <section class="cards">
-          <div class="card">
-            <h4>Orders</h4>
-            <p>View and update customer orders.</p>
-          </div>
-          <div class="card">
-            <h4>Customers</h4>
-            <p>Manage customer details and preferences.</p>
-          </div>
-          <div class="card">
-            <h4>Inventory</h4>
-            <p>Track fabrics, accessories, and stock.</p>
-          </div>
-          <div class="card">
-            <h4>Services</h4>
-            <p>Update tailoring services and pricing.</p>
-          </div>
-        </section>
-      </main>
-    </div>
-  </div>
-
-  <script src="js/script.js"></script>
-</body>
+    <script src="js/admin.js"></script>
+  </body>
 </html>

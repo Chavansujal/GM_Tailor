@@ -7,107 +7,268 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <header>
-      <div class="logo interactive-logo">
-        <img src="assets/logo.png" alt="GM Tailors Logo" />
-        <span class="tagline"><b>Elegance in Every Stitch</b></span>
-      </div>
-      <nav>
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="customer.html">Reviews</a>
-        <a href="admin.html">Admin</a>
-      </nav>
-    </header>
-
-    <main>
-      <section class="welcome">
-        <div class="welcome-container">
-          <div class="welcome-text">
-            <h1>Welcome to GM Tailors</h1>
-            <p>Crafting elegance, one stitch at a time.</p>
-            <a href="about.html" class="btn btn-primary">Explore Our Craft</a>
-          </div>
-          <div class="welcome-image">
-            <img src="assets/headimg.webp" alt="Tailoring Showcase" />
+    <div class="site-shell">
+      <header class="site-header">
+        <div class="logo interactive-logo">
+          <img src="assets/logo.png" alt="GM Tailors Logo" />
+          <div>
+            <span class="brand-name">GM Tailors</span>
+            <span class="tagline"><b>Elegance in Every Stitch</b></span>
           </div>
         </div>
+        <nav>
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="customer.html">Reviews</a>
+          <a href="admin.html">Admin</a>
+        </nav>
+      </header>
 
-        <br /><br />
-
-        <div class="tailor-products">
-          <h1>Our Creations</h1>
-          <div class="product-grid">
-            <div class="product-item">
-              <img src="assets/suit.png" alt="Tailored Suit" />
-              <p>Elegant Suits</p>
+      <main>
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Bespoke tailoring from Kannad, Maharashtra</p>
+            <h1>Custom stitching with perfect fit and elegance.</h1>
+            <p class="hero-text">
+              Custom suits, shirts, and pants shaped with precision, modern fit
+              planning, and a stronger digital experience for GM Tailors.
+            </p>
+            <div class="hero-actions">
+              <a href="#collections" class="btn btn-primary">View Collections</a>
+              <a href="#appointment" class="btn btn-secondary">Book a Visit</a>
             </div>
-            <div class="product-item">
-              <img src="assets/shirt.png" alt="Tailored Shirt" />
-              <p>Custom Shirts</p>
+            <div class="hero-stats">
+              <div class="stat-card" data-reveal>
+                <strong data-counter="25">0</strong>
+                <span>Years of tailoring</span>
+              </div>
+              <div class="stat-card" data-reveal>
+                <strong data-counter="8">0</strong>
+                <span>Skilled artisans</span>
+              </div>
+              <div class="stat-card" data-reveal>
+                <strong data-counter="1500">0</strong>
+                <span>Happy fittings</span>
+              </div>
             </div>
-            <div class="product-item">
-              <img src="assets/pant.png" alt="Tailored Pants" />
-              <p>Perfect-Fit Pants</p>
-            </div>
-            <!-- Add more items as needed -->
           </div>
-        </div>
 
-        <br /><br /><br />
+          <div class="hero-scene" id="heroScene">
+            <div class="scene-glow"></div>
+            <article class="floating-card card-large" data-tilt>
+              <span class="card-label">Signature</span>
+              <img src="assets/headimg.webp" alt="GM Tailors showcase" />
+              <div class="card-meta">
+                <h2>Made-to-measure wedding and occasion wear</h2>
+                <p>Structured silhouettes, soft drape, premium finish.</p>
+              </div>
+            </article>
 
-        <div class="feedback-section">
-          <div class="feedback-left">
-            <h2>We Value Your Feedback</h2>
+            <article class="floating-card card-small top-card" data-tilt>
+              <img src="assets/suit.png" alt="Custom tailored suit" />
+              <div class="mini-card-copy">
+                <h3>Power Suits</h3>
+                <p>Sharp lapels. Balanced shoulders. Clean break.</p>
+              </div>
+            </article>
+
+            <article class="floating-card card-small side-card" data-tilt>
+              <img src="assets/shirt.png" alt="Custom tailored shirt" />
+              <div class="mini-card-copy">
+                <h3>Smart Shirts</h3>
+                <p>Daily comfort with a clean collar line.</p>
+              </div>
+            </article>
+
+            <div class="fabric-orbit orbit-one"></div>
+            <div class="fabric-orbit orbit-two"></div>
+          </div>
+        </section>
+
+        <section class="collections-section" id="collections">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">Collections</p>
+            <h2>Built to feel premium before the first fitting.</h2>
             <p>
-              At GM Tailors, every stitch is a promise of quality. Share your
-              experience and help us tailor excellence for every customer.
+              Explore the main categories and filter the showcase based on the
+              kind of tailoring your customer wants.
             </p>
           </div>
-          <div class="feedback-right">
+
+          <div class="filter-bar" data-filter-group>
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="formal">Formal</button>
+            <button class="filter-btn" data-filter="everyday">Everyday</button>
+            <button class="filter-btn" data-filter="occasion">Occasion</button>
+          </div>
+
+          <div class="product-grid">
+            <article class="product-item" data-category="formal occasion" data-tilt data-reveal>
+              <img src="assets/suit.png" alt="Tailored suit" />
+              <div class="product-copy">
+                <p class="product-kicker">Formal</p>
+                <h3>Elegant Suits</h3>
+                <p>Structured jackets with modern trouser balance for events and office wear.</p>
+              </div>
+            </article>
+            <article class="product-item" data-category="everyday formal" data-tilt data-reveal>
+              <img src="assets/shirt.png" alt="Tailored shirt" />
+              <div class="product-copy">
+                <p class="product-kicker">Everyday</p>
+                <h3>Custom Shirts</h3>
+                <p>Clean shoulder fit, breathable comfort, and collar shaping that lasts.</p>
+              </div>
+            </article>
+            <article class="product-item" data-category="formal everyday" data-tilt data-reveal>
+              <img src="assets/pant.png" alt="Tailored pants" />
+              <div class="product-copy">
+                <p class="product-kicker">Essential</p>
+                <h3>Perfect-Fit Pants</h3>
+                <p>Proper waist placement, crisp taper, and a smoother break near the shoe.</p>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="process-section">
+          <div class="section-heading" data-reveal>
+            <p class="eyebrow">How It Works</p>
+            <h2>From cloth selection to final press.</h2>
+          </div>
+          <div class="process-grid">
+            <article class="process-card" data-reveal>
+              <span>01</span>
+              <h3>Consultation</h3>
+              <p>Discuss occasion, fit preference, and fabric direction.</p>
+            </article>
+            <article class="process-card" data-reveal>
+              <span>02</span>
+              <h3>Measurement</h3>
+              <p>Capture body profile and movement comfort points accurately.</p>
+            </article>
+            <article class="process-card" data-reveal>
+              <span>03</span>
+              <h3>Crafting</h3>
+              <p>Pattern cutting, stitching, shaping, and controlled finishing.</p>
+            </article>
+            <article class="process-card" data-reveal>
+              <span>04</span>
+              <h3>Final Fitting</h3>
+              <p>Adjust the fall, break, sleeve, and waist for the final look.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="planner-section" id="appointment">
+          <div class="planner-panel" data-reveal>
+            <div class="section-heading">
+              <p class="eyebrow">Fit Planner</p>
+              <h2>Get a quick estimate before visiting the shop.</h2>
+            </div>
+
+            <form id="estimatorForm" class="estimator-form">
+              <label for="garmentType">Garment</label>
+              <select id="garmentType">
+                <option value="suit">Suit</option>
+                <option value="shirt">Shirt</option>
+                <option value="pant">Pant</option>
+              </select>
+
+              <label for="fitType">Fit</label>
+              <select id="fitType">
+                <option value="classic">Classic Fit</option>
+                <option value="slim">Slim Fit</option>
+                <option value="wedding">Wedding / Premium</option>
+              </select>
+
+              <label for="timeline">Required In</label>
+              <select id="timeline">
+                <option value="standard">Standard Timeline</option>
+                <option value="priority">Priority Tailoring</option>
+              </select>
+            </form>
+
+            <div class="estimator-result" id="estimatorResult">
+              Select your options to view estimated starting price and fitting time.
+            </div>
+          </div>
+
+          <div class="appointment-panel" data-reveal>
+            <div class="section-heading">
+              <p class="eyebrow">Visit Request</p>
+              <h2>Prepare the next appointment faster.</h2>
+            </div>
+            <form id="appointmentForm" class="appointment-form">
+              <label for="visitorName">Name</label>
+              <input type="text" id="visitorName" placeholder="Your name" required />
+
+              <label for="visitorPhone">Phone</label>
+              <input type="tel" id="visitorPhone" placeholder="+91" required />
+
+              <label for="visitType">Need</label>
+              <select id="visitType">
+                <option>New Suit Consultation</option>
+                <option>Alteration</option>
+                <option>Wedding Outfit Planning</option>
+              </select>
+
+              <button type="submit" class="btn btn-primary">Send Request</button>
+            </form>
+            <div class="appointment-message hidden" id="appointmentMessage"></div>
+          </div>
+        </section>
+
+        <section class="feedback-section">
+          <div class="feedback-left" data-reveal>
+            <p class="eyebrow">Customer Voice</p>
+            <h2>Our feedbacks from our  precious customer</h2>
+            <p>
+              The homepage now stores reviews locally in the browser, and the
+              dedicated reviews page can read and display them.
+            </p>
+            <div id="reviewPreview" class="review-preview"></div>
+          </div>
+
+          <div class="feedback-right" data-reveal>
             <form id="feedbackForm">
-              <label for="name">Your Name:</label>
+              <label for="name">Your Name</label>
               <input type="text" id="name" required />
 
-              <label for="feedback">Your Feedback:</label>
+              <label for="feedback">Your Feedback</label>
               <textarea id="feedback" rows="4" required></textarea>
 
-              <label for="rating">Rate Us:</label>
-              <div class="star-rating">
-                <span data-value="1">★</span>
-                <span data-value="2">★</span>
-                <span data-value="3">★</span>
-                <span data-value="4">★</span>
-                <span data-value="5">★</span>
+              <label for="rating">Rate Us</label>
+              <div class="star-rating" aria-label="Star rating">
+                <span data-value="1">&#9733;</span>
+                <span data-value="2">&#9733;</span>
+                <span data-value="3">&#9733;</span>
+                <span data-value="4">&#9733;</span>
+                <span data-value="5">&#9733;</span>
               </div>
 
               <input type="hidden" id="rating" value="0" />
-              <button type="submit" class="btn btn-primary">
-                Submit Feedback
-              </button>
+              <button type="submit" class="btn btn-primary">Submit Feedback</button>
             </form>
             <div id="thankYouMessage" class="hidden">
-              🎉 Thank you for your feedback! – GM Tailors
+              Thank you for your feedback. Your review has been saved.
             </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
 
-    <footer>
-      <div class="social">
-        <a href="https://facebook.com/gmtailors" target="_blank">Facebook</a>
-        <a href="https://instagram.com/gmtailors" target="_blank">Instagram</a>
-        <a href="https://wa.me/919423706998" target="_blank">WhatsApp</a>
-      </div>
-      <div class="info-bar">
-        <p>
-          📞 +91-9423706998 | 👔 Suits, Shirts, Pants | 🕙 Open: 9 AM - 8 PM
-        </p>
-      </div>
-      <p>📍 Contact: gmtailors@gmail.com</p>
-      <p>© 2025 GM Tailors. All rights reserved.</p>
-    </footer>
+      <footer>
+        <div class="social">
+          <a href="https://facebook.com/gmtailors" target="_blank" rel="noreferrer">Facebook</a>
+          <a href="https://instagram.com/gmtailors" target="_blank" rel="noreferrer">Instagram</a>
+          <a href="https://wa.me/919423706998" target="_blank" rel="noreferrer">WhatsApp</a>
+        </div>
+        <div class="info-bar">
+          <p>Phone: +91-9423706998 | Speciality: Suits, Shirts, Pants | Open: 9 AM - 8 PM</p>
+        </div>
+        <p>Contact: gmtailors@gmail.com</p>
+        <p>&copy; 2025 GM Tailors. All rights reserved.</p>
+      </footer>
+    </div>
 
     <script src="js/script.js"></script>
   </body>
