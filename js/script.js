@@ -157,7 +157,7 @@ function initReviewPreview() {
     return;
   }
 
-  const reviews = getStoredReviews().slice(0, 3);
+  const reviews = getStoredReviews().slice(0, 2);
   if (reviews.length === 0) {
     reviewPreview.innerHTML = '<div class="review-card">No reviews yet. Be the first to leave one.</div>';
     return;
