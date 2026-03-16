@@ -64,6 +64,7 @@
             <button type="button" class="nav-link is-active" data-section="dashboard">
               Dashboard
             </button>
+            <button type="button" class="nav-link" data-section="visits">Visit Requests</button>
             <button type="button" class="nav-link" data-section="orders">Orders</button>
             <button type="button" class="nav-link" data-section="customers">Customers</button>
             <button type="button" class="nav-link" data-section="inventory">Inventory</button>
@@ -136,6 +137,48 @@
                 <div id="lowStockList" class="stack-list"></div>
               </article>
             </div>
+
+            <article class="surface-card">
+              <div class="section-heading">
+                <h3>Recent visit requests</h3>
+                <span class="eyebrow-badge">Front desk</span>
+              </div>
+              <div id="recentVisitRequests" class="stack-list"></div>
+            </article>
+          </section>
+
+          <section class="panel-section" data-panel="visits">
+            <div class="section-heading section-heading-space">
+              <div>
+                <p class="overline">Visit Desk</p>
+                <h2>Track customer visit requests</h2>
+              </div>
+            </div>
+
+            <article class="surface-card">
+              <div class="table-toolbar">
+                <h3>Visit request register</h3>
+                <p class="muted-copy">
+                  New requests can be contacted, confirmed, converted into orders, or closed.
+                </p>
+              </div>
+              <div class="table-shell">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Customer</th>
+                      <th>Need</th>
+                      <th>Preferred Visit</th>
+                      <th>Status</th>
+                      <th>Created</th>
+                      <th>Notes</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="visitRequestsTableBody"></tbody>
+                </table>
+              </div>
+            </article>
           </section>
 
           <section class="panel-section" data-panel="orders">

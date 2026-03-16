@@ -3,6 +3,7 @@ const STORAGE_KEYS = {
   orders: "gmTailorsOrders",
   inventory: "gmTailorsInventory",
   services: "gmTailorsServices",
+  visitRequests: "gmTailorsVisitRequests",
 };
 
 const DEMO_CREDENTIALS = {
@@ -137,6 +138,7 @@ const defaultServices = [
 ];
 
 let state = {
+  visitRequests: [],
   orders: [],
   inventory: [],
   services: [],
@@ -171,6 +173,7 @@ function initAdminDashboard() {
 }
 
 function hydrateState() {
+  state.visitRequests = loadCollection(STORAGE_KEYS.visitRequests, []);
   state.orders = loadCollection(STORAGE_KEYS.orders, defaultOrders);
   state.inventory = loadCollection(STORAGE_KEYS.inventory, defaultInventory);
   state.services = loadCollection(STORAGE_KEYS.services, defaultServices);
@@ -428,6 +431,7 @@ function bindFilters() {
   document.getElementById("orderStatusFilter")?.addEventListener("change", renderOrders);
   document.getElementById("inventoryCategoryFilter")?.addEventListener("change", renderInventory);
   document.getElementById("globalSearch")?.addEventListener("input", () => {
+    renderVisitRequests();
     renderOrders();
     renderInventory();
     renderCustomers();
@@ -436,6 +440,7 @@ function bindFilters() {
 
 function renderAll() {
   renderDashboard();
+  renderVisitRequests();
   renderOrders();
   renderCustomers();
   renderInventory();
@@ -448,6 +453,7 @@ function renderDashboard() {
   const totalRevenue = state.orders.reduce((sum, order) => sum + Number(order.amount || 0), 0);
   const lowStockItems = state.inventory.filter((item) => Number(item.quantity) <= Number(item.threshold));
   const activeOrders = state.orders.filter((order) => order.status !== "Delivered").length;
+  const activeVisitRequests = state.visitRequests.filter((request) => request.status !== "Closed").length;
   const customers = buildCustomers();
   const deliveryRate = state.orders.length
     ? Math.round((deliveredOrders / state.orders.length) * 100)
@@ -455,6 +461,7 @@ function renderDashboard() {
 
   const stats = [
     { label: "Active Orders", value: activeOrders, note: "Currently in production" },
+    { label: "Visit Requests", value: activeVisitRequests, note: "Awaiting follow-up or scheduled" },
     { label: "Total Revenue", value: formatCurrency(totalRevenue), note: "Across all saved orders" },
     { label: "Customers", value: customers.length, note: "Unique client profiles" },
     { label: "Low Stock", value: lowStockItems.length, note: "Items at or below threshold" },
@@ -477,7 +484,7 @@ function renderDashboard() {
 
   const summary = document.getElementById("heroSummary");
   if (summary) {
-    summary.textContent = `${activeOrders} active orders, ${lowStockItems.length} low-stock materials, and ${customers.length} client profiles are being tracked in real time.`;
+    summary.textContent = `${activeOrders} active orders, ${activeVisitRequests} visit requests, ${lowStockItems.length} low-stock materials, and ${customers.length} client profiles are being tracked in real time.`;
   }
 
   const rateEl = document.getElementById("deliveryRate");
@@ -497,6 +504,7 @@ function renderDashboard() {
   renderActivityFeed();
   renderDeliveryQueue();
   renderLowStock();
+  renderRecentVisitRequests();
 }
 
 function renderActivityFeed() {
@@ -505,12 +513,11 @@ function renderActivityFeed() {
     return;
   }
 
-  const items = state.orders
-    .slice()
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .slice(0, 5)
-    .map(
-      (order) => `
+  const items = [
+    ...state.orders.map((order) => ({
+      type: "order",
+      createdAt: order.createdAt,
+      markup: `
         <div class="activity-item">
           <div>
             <strong>${escapeHtml(order.customer)}</strong>
@@ -519,9 +526,123 @@ function renderActivityFeed() {
           <span class="badge ${statusClass(order.status)}">${escapeHtml(order.status)}</span>
         </div>
       `,
+    })),
+    ...state.visitRequests.map((request) => ({
+      type: "visit",
+      createdAt: request.createdAt,
+      markup: `
+        <div class="activity-item">
+          <div>
+            <strong>${escapeHtml(request.customer)}</strong>
+            <p class="muted-copy">Visit request for ${escapeHtml(request.need)}${request.preferredDate ? ` on ${formatDate(request.preferredDate)}` : ""}.</p>
+          </div>
+          <span class="badge ${visitStatusClass(request.status)}">${escapeHtml(request.status)}</span>
+        </div>
+      `,
+    })),
+  ]
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 5)
+    .map((item) => item.markup);
+
+  feed.innerHTML = items.length ? items.join("") : '<div class="empty-state">No recent activity yet.</div>';
+}
+
+function renderRecentVisitRequests() {
+  const container = document.getElementById("recentVisitRequests");
+  if (!container) {
+    return;
+  }
+
+  const items = state.visitRequests
+    .slice()
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 5)
+    .map(
+      (request) => `
+        <div class="stack-item">
+          <h4>${escapeHtml(request.customer)} <span class="badge ${visitStatusClass(request.status)}">${escapeHtml(request.status)}</span></h4>
+          <p class="muted-copy">${escapeHtml(request.need)} | ${escapeHtml(request.phone)} | ${request.preferredDate ? formatDate(request.preferredDate) : "Date not selected"}</p>
+        </div>
+      `,
     );
 
-  feed.innerHTML = items.length ? items.join("") : '<div class="empty-state">No order activity yet.</div>';
+  container.innerHTML = items.length ? items.join("") : '<div class="empty-state">No visit requests yet.</div>';
+}
+
+function renderVisitRequests() {
+  const tableBody = document.getElementById("visitRequestsTableBody");
+  if (!tableBody) {
+    return;
+  }
+
+  const query = globalQuery();
+  const filtered = state.visitRequests.filter((request) => {
+    const haystack = `${request.customer} ${request.phone} ${request.need} ${request.notes} ${request.status}`.toLowerCase();
+    return haystack.includes(query);
+  });
+
+  tableBody.innerHTML = filtered.length
+    ? filtered
+        .slice()
+        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        .map(
+          (request) => `
+            <tr>
+              <td>
+                <strong>${escapeHtml(request.customer)}</strong><br />
+                <span class="muted-copy">${escapeHtml(request.phone)}</span>
+              </td>
+              <td>${escapeHtml(request.need)}</td>
+              <td>${request.preferredDate ? formatDate(request.preferredDate) : "Not set"}</td>
+              <td>
+                <select class="inline-select" data-visit-status="${escapeHtml(request.id)}">
+                  ${["New", "Contacted", "Confirmed", "Closed"]
+                    .map(
+                      (status) =>
+                        `<option value="${status}" ${status === request.status ? "selected" : ""}>${status}</option>`,
+                    )
+                    .join("")}
+                </select>
+              </td>
+              <td>${formatDate(request.createdAt)}</td>
+              <td>${escapeHtml(request.notes || "No notes")}</td>
+              <td>
+                <div class="table-actions">
+                  <button type="button" data-visit-convert="${escapeHtml(request.id)}">Create Order</button>
+                  <button type="button" data-visit-delete="${escapeHtml(request.id)}">Delete</button>
+                </div>
+              </td>
+            </tr>
+          `,
+        )
+        .join("")
+    : '<tr><td colspan="7"><div class="empty-state">No visit requests match the current search.</div></td></tr>';
+
+  tableBody.querySelectorAll("[data-visit-status]").forEach((select) => {
+    select.addEventListener("change", (event) => {
+      const id = event.target.getAttribute("data-visit-status");
+      const request = state.visitRequests.find((item) => item.id === id);
+      if (!request) {
+        return;
+      }
+      request.status = event.target.value;
+      persist(STORAGE_KEYS.visitRequests, state.visitRequests);
+      renderAll();
+    });
+  });
+
+  tableBody.querySelectorAll("[data-visit-convert]").forEach((button) => {
+    button.addEventListener("click", () => convertVisitRequestToOrder(button.getAttribute("data-visit-convert")));
+  });
+
+  tableBody.querySelectorAll("[data-visit-delete]").forEach((button) => {
+    button.addEventListener("click", () => {
+      state.visitRequests = state.visitRequests.filter((item) => item.id !== button.getAttribute("data-visit-delete"));
+      persist(STORAGE_KEYS.visitRequests, state.visitRequests);
+      renderAll();
+    });
+  });
 }
 
 function renderDeliveryQueue() {
@@ -824,6 +945,30 @@ function editOrder(id) {
   document.getElementById("orderCustomer")?.focus();
 }
 
+function convertVisitRequestToOrder(id) {
+  const request = state.visitRequests.find((item) => item.id === id);
+  if (!request) {
+    return;
+  }
+
+  setValue("orderId", "");
+  setValue("orderCustomer", request.customer);
+  setValue("orderPhone", request.phone);
+  setValue("orderEmail", "");
+  setValue("orderGarment", mapVisitNeedToGarment(request.need));
+  setValue("orderStatus", request.status === "Confirmed" ? "In Progress" : "Pending");
+  setValue("orderDueDate", request.preferredDate || "");
+  setValue("orderAmount", "0");
+  setValue("orderMeasurements", "");
+  setValue("orderNotes", buildVisitOrderNotes(request));
+  request.status = "Confirmed";
+  persist(STORAGE_KEYS.visitRequests, state.visitRequests);
+  setOrderSubmitLabel("Save Order");
+  focusSection("orders");
+  document.getElementById("orderCustomer")?.focus();
+  renderAll();
+}
+
 function editInventory(id) {
   const item = state.inventory.find((entry) => entry.id === id);
   if (!item) {
@@ -969,6 +1114,42 @@ function statusClass(status) {
     default:
       return "";
   }
+}
+
+function visitStatusClass(status) {
+  switch (status) {
+    case "New":
+      return "new";
+    case "Contacted":
+      return "contacted";
+    case "Confirmed":
+      return "confirmed";
+    case "Closed":
+      return "closed";
+    default:
+      return "";
+  }
+}
+
+function mapVisitNeedToGarment(need) {
+  switch (need) {
+    case "Alteration":
+      return "Pant";
+    case "Wedding Outfit Planning":
+      return "Sherwani";
+    case "New Suit Consultation":
+    default:
+      return "Suit";
+  }
+}
+
+function buildVisitOrderNotes(request) {
+  return [
+    `Converted from visit request ${request.id}.`,
+    `Need: ${request.need}.`,
+    `Preferred visit date: ${request.preferredDate || "Not provided"}.`,
+    `Notes: ${request.notes || "None"}.`,
+  ].join(" ");
 }
 
 function escapeHtml(value) {

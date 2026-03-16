@@ -1,4 +1,6 @@
 const REVIEWS_KEY = "gmTailorsReviews";
+const VISIT_REQUESTS_KEY = "gmTailorsVisitRequests";
+const ADMIN_PHONE = "9423706998";
 
 initAdminPage();
 initHomePage();
@@ -280,6 +282,8 @@ function initAppointmentForm() {
     const name = document.getElementById("visitorName")?.value.trim();
     const phone = document.getElementById("visitorPhone")?.value.trim();
     const need = document.getElementById("visitType")?.value;
+    const preferredDate = document.getElementById("visitDate")?.value || "";
+    const notes = document.getElementById("visitNotes")?.value.trim() || "";
 
     if (!name || !phone) {
       message.textContent = "Please enter your name and phone number.";
@@ -287,9 +291,36 @@ function initAppointmentForm() {
       return;
     }
 
-    message.textContent = `${name}, your request for "${need}" is ready. Contact GM Tailors at +91-9423706998 to confirm the visit.`;
+    const request = {
+      id: createId("visit"),
+      customer: name,
+      phone,
+      need,
+      preferredDate,
+      notes,
+      status: "New",
+      createdAt: new Date().toISOString(),
+    };
+
+    const requests = getStoredVisitRequests();
+    requests.unshift(request);
+    localStorage.setItem(VISIT_REQUESTS_KEY, JSON.stringify(requests.slice(0, 100)));
+
+    const whatsappLink = createWhatsAppLink(request);
+    const smsLink = createSmsLink(request);
+    message.innerHTML = `
+      <strong>${escapeHtml(name)}</strong>, your visit request was sent successfully.
+      It is now saved for the admin dashboard.
+      <br />
+      Admin alert:
+      <a href="${whatsappLink}" target="_blank" rel="noreferrer">WhatsApp ${escapeHtml(ADMIN_PHONE)}</a>
+      |
+      <a href="${smsLink}">SMS ${escapeHtml(ADMIN_PHONE)}</a>
+    `;
     message.classList.remove("hidden");
     form.reset();
+
+    window.open(whatsappLink, "_blank", "noopener");
   });
 }
 
@@ -361,6 +392,44 @@ function getStoredReviews() {
   } catch (error) {
     return [];
   }
+}
+
+function getStoredVisitRequests() {
+  try {
+    const value = JSON.parse(localStorage.getItem(VISIT_REQUESTS_KEY) || "[]");
+    return Array.isArray(value) ? value : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function createWhatsAppLink(request) {
+  const text = [
+    "New GM Tailors visit request",
+    `Customer: ${request.customer}`,
+    `Phone: ${request.phone}`,
+    `Need: ${request.need}`,
+    `Preferred date: ${request.preferredDate || "Not provided"}`,
+    `Notes: ${request.notes || "None"}`,
+  ].join("\n");
+
+  return `https://wa.me/91${ADMIN_PHONE}?text=${encodeURIComponent(text)}`;
+}
+
+function createSmsLink(request) {
+  const body = [
+    "New GM Tailors visit request",
+    `Customer: ${request.customer}`,
+    `Phone: ${request.phone}`,
+    `Need: ${request.need}`,
+    `Preferred date: ${request.preferredDate || "Not provided"}`,
+  ].join("\n");
+
+  return `sms:+91${ADMIN_PHONE}?body=${encodeURIComponent(body)}`;
+}
+
+function createId(prefix) {
+  return `${prefix}-${Math.random().toString(36).slice(2, 8)}`;
 }
 
 function escapeHtml(value) {
