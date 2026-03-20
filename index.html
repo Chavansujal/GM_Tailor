@@ -7,48 +7,64 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
+    <audio id="ambientAudio" autoplay loop preload="auto" playsinline>
+      <source src="audio/tunetank-jazz-cafe-music-348267.mp3" type="audio/mpeg" />
+    </audio>
+    <div class="audio-status hidden" id="audioStatus">
+      Tap anywhere to start the background music.
+    </div>
     <div class="site-shell">
       <header class="site-header">
         <div class="logo interactive-logo">
-          <img src="assets/logo.png" alt="GM Tailors Logo" />
+          <img src="assets/logo.png" alt="GM Tailors Logo" data-i18n-alt="brand.logoAlt" />
           <div>
             <span class="brand-name">GM Tailors</span>
-            <span class="tagline"><b>Elegance in Every Stitch</b></span>
+            <span class="tagline"><b data-i18n="brand.tagline">Elegance in Every Stitch</b></span>
           </div>
         </div>
-        <nav>
-          <a href="index.html">Home</a>
-          <a href="about.html">About</a>
-          <a href="customer.html">Reviews</a>
-          <a href="admin.html">Admin</a>
-        </nav>
+        <div class="header-actions">
+          <nav>
+            <a href="index.html" data-i18n="nav.home">Home</a>
+            <a href="about.html" data-i18n="nav.about">About</a>
+            <a href="customer.html" data-i18n="nav.reviews">Reviews</a>
+            <a href="admin.html" data-i18n="nav.admin">Admin</a>
+          </nav>
+          <label class="language-switcher" for="languageSelect">
+            <span data-i18n="language.label">Language</span>
+            <select id="languageSelect" aria-label="Select language">
+              <option value="en">English</option>
+              <option value="hi">Hindi</option>
+              <option value="mr">Marathi</option>
+            </select>
+          </label>
+        </div>
       </header>
 
       <main>
         <section class="hero">
           <div class="hero-copy">
-            <p class="eyebrow">Bespoke tailoring from Kannad, Maharashtra</p>
-            <h1>Custom stitching with perfect fit and elegance.</h1>
-            <p class="hero-text">
+            <p class="eyebrow" data-i18n="hero.eyebrow">Bespoke tailoring from Kannad, Maharashtra</p>
+            <h1 data-i18n="hero.title">Custom stitching with perfect fit and elegance.</h1>
+            <p class="hero-text" data-i18n="hero.text">
               Custom suits, shirts, and pants shaped with precision, modern fit
               planning, and a stronger digital experience for GM Tailors.
             </p>
             <div class="hero-actions">
-              <a href="#collections" class="btn btn-primary">View Collections</a>
-              <a href="#appointment" class="btn btn-secondary">Book a Visit</a>
+              <a href="#collections" class="btn btn-primary" data-i18n="hero.primaryCta">View Collections</a>
+              <a href="#appointment" class="btn btn-secondary" data-i18n="hero.secondaryCta">Book a Visit</a>
             </div>
             <div class="hero-stats">
               <div class="stat-card" data-reveal>
                 <strong data-counter="25">0</strong>
-                <span>Years of tailoring</span>
+                <span data-i18n="hero.stats.years">Years of tailoring</span>
               </div>
               <div class="stat-card" data-reveal>
                 <strong data-counter="8">0</strong>
-                <span>Skilled artisans</span>
+                <span data-i18n="hero.stats.artisans">Skilled artisans</span>
               </div>
               <div class="stat-card" data-reveal>
                 <strong data-counter="1500">0</strong>
-                <span>Happy fittings</span>
+                <span data-i18n="hero.stats.fittings">Happy fittings</span>
               </div>
             </div>
           </div>
@@ -56,27 +72,27 @@
           <div class="hero-scene" id="heroScene">
             <div class="scene-glow"></div>
             <article class="floating-card card-large" data-tilt>
-              <span class="card-label">Signature</span>
-              <img src="assets/headimg.webp" alt="GM Tailors showcase" />
+              <span class="card-label" data-i18n="hero.signature.label">Signature</span>
+              <img src="assets/headimg.webp" alt="GM Tailors showcase" data-i18n-alt="hero.signature.alt" />
               <div class="card-meta">
-                <h2>Made-to-measure wedding and occasion wear</h2>
-                <p>Structured silhouettes, soft drape, premium finish.</p>
+                <h2 data-i18n="hero.signature.title">Made-to-measure wedding and occasion wear</h2>
+                <p data-i18n="hero.signature.text">Structured silhouettes, soft drape, premium finish.</p>
               </div>
             </article>
 
             <article class="floating-card card-small top-card" data-tilt>
-              <img src="assets/suit.png" alt="Custom tailored suit" />
+              <img src="assets/suit.png" alt="Custom tailored suit" data-i18n-alt="hero.cards.suit.alt" />
               <div class="mini-card-copy">
-                <h3>Power Suits</h3>
-                <p>Sharp lapels. Balanced shoulders. Clean break.</p>
+                <h3 data-i18n="hero.cards.suit.title">Power Suits</h3>
+                <p data-i18n="hero.cards.suit.text">Sharp lapels. Balanced shoulders. Clean break.</p>
               </div>
             </article>
 
             <article class="floating-card card-small side-card" data-tilt>
-              <img src="assets/shirt.png" alt="Custom tailored shirt" />
+              <img src="assets/shirt.png" alt="Custom tailored shirt" data-i18n-alt="hero.cards.shirt.alt" />
               <div class="mini-card-copy">
-                <h3>Smart Shirts</h3>
-                <p>Daily comfort with a clean collar line.</p>
+                <h3 data-i18n="hero.cards.shirt.title">Smart Shirts</h3>
+                <p data-i18n="hero.cards.shirt.text">Daily comfort with a clean collar line.</p>
               </div>
             </article>
 
@@ -87,44 +103,44 @@
 
         <section class="collections-section" id="collections">
           <div class="section-heading" data-reveal>
-            <p class="eyebrow">Collections</p>
-            <h2>Built to feel premium before the first fitting.</h2>
-            <p>
+            <p class="eyebrow" data-i18n="collections.eyebrow">Collections</p>
+            <h2 data-i18n="collections.title">Built to feel premium before the first fitting.</h2>
+            <p data-i18n="collections.text">
               Explore the main categories and filter the showcase based on the
               kind of tailoring your customer wants.
             </p>
           </div>
 
           <div class="filter-bar" data-filter-group>
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="formal">Formal</button>
-            <button class="filter-btn" data-filter="everyday">Everyday</button>
-            <button class="filter-btn" data-filter="occasion">Occasion</button>
+            <button class="filter-btn active" data-filter="all" data-i18n="filters.all">All</button>
+            <button class="filter-btn" data-filter="formal" data-i18n="filters.formal">Formal</button>
+            <button class="filter-btn" data-filter="everyday" data-i18n="filters.everyday">Everyday</button>
+            <button class="filter-btn" data-filter="occasion" data-i18n="filters.occasion">Occasion</button>
           </div>
 
           <div class="product-grid">
             <article class="product-item" data-category="formal occasion" data-tilt data-reveal>
-              <img src="assets/suit.png" alt="Tailored suit" />
+              <img src="assets/suit.png" alt="Tailored suit" data-i18n-alt="products.suit.alt" />
               <div class="product-copy">
-                <p class="product-kicker">Formal</p>
-                <h3>Elegant Suits</h3>
-                <p>Structured jackets with modern trouser balance for events and office wear.</p>
+                <p class="product-kicker" data-i18n="products.suit.kicker">Formal</p>
+                <h3 data-i18n="products.suit.title">Elegant Suits</h3>
+                <p data-i18n="products.suit.text">Structured jackets with modern trouser balance for events and office wear.</p>
               </div>
             </article>
             <article class="product-item" data-category="everyday formal" data-tilt data-reveal>
-              <img src="assets/shirt.png" alt="Tailored shirt" />
+              <img src="assets/shirt.png" alt="Tailored shirt" data-i18n-alt="products.shirt.alt" />
               <div class="product-copy">
-                <p class="product-kicker">Everyday</p>
-                <h3>Custom Shirts</h3>
-                <p>Clean shoulder fit, breathable comfort, and collar shaping that lasts.</p>
+                <p class="product-kicker" data-i18n="products.shirt.kicker">Everyday</p>
+                <h3 data-i18n="products.shirt.title">Custom Shirts</h3>
+                <p data-i18n="products.shirt.text">Clean shoulder fit, breathable comfort, and collar shaping that lasts.</p>
               </div>
             </article>
             <article class="product-item" data-category="formal everyday" data-tilt data-reveal>
-              <img src="assets/pant.png" alt="Tailored pants" />
+              <img src="assets/pant.png" alt="Tailored pants" data-i18n-alt="products.pant.alt" />
               <div class="product-copy">
-                <p class="product-kicker">Essential</p>
-                <h3>Perfect-Fit Pants</h3>
-                <p>Proper waist placement, crisp taper, and a smoother break near the shoe.</p>
+                <p class="product-kicker" data-i18n="products.pant.kicker">Essential</p>
+                <h3 data-i18n="products.pant.title">Perfect-Fit Pants</h3>
+                <p data-i18n="products.pant.text">Proper waist placement, crisp taper, and a smoother break near the shoe.</p>
               </div>
             </article>
           </div>
@@ -132,29 +148,29 @@
 
         <section class="process-section">
           <div class="section-heading" data-reveal>
-            <p class="eyebrow">How It Works</p>
-            <h2>From cloth selection to final press.</h2>
+            <p class="eyebrow" data-i18n="process.eyebrow">How It Works</p>
+            <h2 data-i18n="process.title">From cloth selection to final press.</h2>
           </div>
           <div class="process-grid">
             <article class="process-card" data-reveal>
               <span>01</span>
-              <h3>Consultation</h3>
-              <p>Discuss occasion, fit preference, and fabric direction.</p>
+              <h3 data-i18n="process.step1.title">Consultation</h3>
+              <p data-i18n="process.step1.text">Discuss occasion, fit preference, and fabric direction.</p>
             </article>
             <article class="process-card" data-reveal>
               <span>02</span>
-              <h3>Measurement</h3>
-              <p>Capture body profile and movement comfort points accurately.</p>
+              <h3 data-i18n="process.step2.title">Measurement</h3>
+              <p data-i18n="process.step2.text">Capture body profile and movement comfort points accurately.</p>
             </article>
             <article class="process-card" data-reveal>
               <span>03</span>
-              <h3>Crafting</h3>
-              <p>Pattern cutting, stitching, shaping, and controlled finishing.</p>
+              <h3 data-i18n="process.step3.title">Crafting</h3>
+              <p data-i18n="process.step3.text">Pattern cutting, stitching, shaping, and controlled finishing.</p>
             </article>
             <article class="process-card" data-reveal>
               <span>04</span>
-              <h3>Final Fitting</h3>
-              <p>Adjust the fall, break, sleeve, and waist for the final look.</p>
+              <h3 data-i18n="process.step4.title">Final Fitting</h3>
+              <p data-i18n="process.step4.text">Adjust the fall, break, sleeve, and waist for the final look.</p>
             </article>
           </div>
         </section>
@@ -162,29 +178,29 @@
         <section class="planner-section" id="appointment">
           <div class="planner-panel" data-reveal>
             <div class="section-heading">
-              <p class="eyebrow">Fit Planner</p>
-              <h2>Get a quick estimate before visiting the shop.</h2>
+              <p class="eyebrow" data-i18n="planner.eyebrow">Fit Planner</p>
+              <h2 data-i18n="planner.title">Get a quick estimate before visiting the shop.</h2>
             </div>
 
             <form id="estimatorForm" class="estimator-form">
-              <label for="garmentType">Garment</label>
+              <label for="garmentType" data-i18n="planner.garmentLabel">Garment</label>
               <select id="garmentType">
-                <option value="suit">Suit</option>
-                <option value="shirt">Shirt</option>
-                <option value="pant">Pant</option>
+                <option value="suit" data-i18n="planner.options.suit">Suit</option>
+                <option value="shirt" data-i18n="planner.options.shirt">Shirt</option>
+                <option value="pant" data-i18n="planner.options.pant">Pant</option>
               </select>
 
-              <label for="fitType">Fit</label>
+              <label for="fitType" data-i18n="planner.fitLabel">Fit</label>
               <select id="fitType">
-                <option value="classic">Classic Fit</option>
-                <option value="slim">Slim Fit</option>
-                <option value="wedding">Wedding / Premium</option>
+                <option value="classic" data-i18n="planner.fitOptions.classic">Classic Fit</option>
+                <option value="slim" data-i18n="planner.fitOptions.slim">Slim Fit</option>
+                <option value="wedding" data-i18n="planner.fitOptions.wedding">Wedding / Premium</option>
               </select>
 
-              <label for="timeline">Required In</label>
+              <label for="timeline" data-i18n="planner.timelineLabel">Required In</label>
               <select id="timeline">
-                <option value="standard">Standard Timeline</option>
-                <option value="priority">Priority Tailoring</option>
+                <option value="standard" data-i18n="planner.timelineOptions.standard">Standard Timeline</option>
+                <option value="priority" data-i18n="planner.timelineOptions.priority">Priority Tailoring</option>
               </select>
             </form>
 
@@ -195,34 +211,35 @@
 
           <div class="appointment-panel" data-reveal>
             <div class="section-heading">
-              <p class="eyebrow">Visit Request</p>
-              <h2>Prepare the next appointment faster.</h2>
+              <p class="eyebrow" data-i18n="appointment.eyebrow">Visit Request</p>
+              <h2 data-i18n="appointment.title">Prepare the next appointment faster.</h2>
             </div>
             <form id="appointmentForm" class="appointment-form">
-              <label for="visitorName">Name</label>
-              <input type="text" id="visitorName" placeholder="Your name" required />
+              <label for="visitorName" data-i18n="appointment.nameLabel">Name</label>
+              <input type="text" id="visitorName" placeholder="Your name" data-i18n-placeholder="appointment.namePlaceholder" required />
 
-              <label for="visitorPhone">Phone</label>
-              <input type="tel" id="visitorPhone" placeholder="+91" required />
+              <label for="visitorPhone" data-i18n="appointment.phoneLabel">Phone</label>
+              <input type="tel" id="visitorPhone" placeholder="+91" data-i18n-placeholder="appointment.phonePlaceholder" required />
 
-              <label for="visitType">Need</label>
+              <label for="visitType" data-i18n="appointment.needLabel">Need</label>
               <select id="visitType">
-                <option>New Suit Consultation</option>
-                <option>Alteration</option>
-                <option>Wedding Outfit Planning</option>
+                <option data-i18n="appointment.needOptions.newSuit">New Suit Consultation</option>
+                <option data-i18n="appointment.needOptions.alteration">Alteration</option>
+                <option data-i18n="appointment.needOptions.wedding">Wedding Outfit Planning</option>
               </select>
 
-              <label for="visitDate">Preferred Visit Date</label>
+              <label for="visitDate" data-i18n="appointment.dateLabel">Preferred Visit Date</label>
               <input type="date" id="visitDate" />
 
-              <label for="visitNotes">Notes</label>
+              <label for="visitNotes" data-i18n="appointment.notesLabel">Notes</label>
               <textarea
                 id="visitNotes"
                 rows="3"
                 placeholder="Preferred time, fabric idea, urgency, special request"
+                data-i18n-placeholder="appointment.notesPlaceholder"
               ></textarea>
 
-              <button type="submit" class="btn btn-primary">Send Request</button>
+              <button type="submit" class="btn btn-primary" data-i18n="appointment.submit">Send Request</button>
             </form>
             <div class="appointment-message hidden" id="appointmentMessage"></div>
           </div>
@@ -230,9 +247,9 @@
 
         <section class="feedback-section">
           <div class="feedback-left" data-reveal>
-            <p class="eyebrow">Customer Voice</p>
-            <h2>Our feedbacks from our  precious customer</h2>
-            <p>
+            <p class="eyebrow" data-i18n="feedback.eyebrow">Customer Voice</p>
+            <h2 data-i18n="feedback.title">Our feedbacks from our precious customer</h2>
+            <p data-i18n="feedback.text">
               The homepage now stores reviews locally in the browser, and the
               dedicated reviews page can read and display them.
             </p>
@@ -241,13 +258,13 @@
 
           <div class="feedback-right" data-reveal>
             <form id="feedbackForm">
-              <label for="name">Your Name</label>
+              <label for="name" data-i18n="feedback.nameLabel">Your Name</label>
               <input type="text" id="name" required />
 
-              <label for="feedback">Your Feedback</label>
+              <label for="feedback" data-i18n="feedback.feedbackLabel">Your Feedback</label>
               <textarea id="feedback" rows="4" required></textarea>
 
-              <label for="rating">Rate Us</label>
+              <label for="rating" data-i18n="feedback.ratingLabel">Rate Us</label>
               <div class="star-rating" aria-label="Star rating">
                 <span data-value="1">&#9733;</span>
                 <span data-value="2">&#9733;</span>
@@ -257,7 +274,7 @@
               </div>
 
               <input type="hidden" id="rating" value="0" />
-              <button type="submit" class="btn btn-primary">Submit Feedback</button>
+              <button type="submit" class="btn btn-primary" data-i18n="feedback.submit">Submit Feedback</button>
             </form>
             <div id="thankYouMessage" class="hidden">
               Thank you for your feedback. Your review has been saved.
@@ -285,13 +302,13 @@
           </a>
         </div>
         <div class="info-bar">
-          <p>Phone: +91-9423706998 | Speciality: Suits, Shirts, Pants | Open: 9 AM - 8 PM</p>
+          <p data-i18n="footer.info">Phone: +91-9423706998 | Speciality: Suits, Shirts, Pants | Open: 9 AM - 8 PM</p>
         </div>
-        <p>Contact: <br>gmtailor21@gmail.com
+        <p><span data-i18n="footer.contact">Contact:</span> <br>gmtailor21@gmail.com
                     <br>gmtailor1306@gmail.com
         </p>
         
-        <p>&copy; 2025 GM Tailors. All rights reserved.</p>
+        <p data-i18n="footer.copyright">&copy; 2025 GM Tailors. All rights reserved.</p>
       </footer>
     </div>
 

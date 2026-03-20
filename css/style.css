@@ -90,6 +90,39 @@ nav {
   gap: 18px;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--accent-soft);
+  font-weight: 700;
+}
+
+.language-switcher select {
+  min-width: 130px;
+  padding: 10px 14px;
+  border-radius: 999px;
+}
+
+.audio-status {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 1200;
+  padding: 12px 16px;
+  border-radius: 999px;
+  background: rgba(5, 10, 20, 0.92);
+  border: 1px solid rgba(240, 199, 143, 0.35);
+  color: var(--accent-soft);
+  box-shadow: var(--shadow);
+}
+
 nav a {
   text-decoration: none;
   color: var(--text);
@@ -652,6 +685,24 @@ footer .social svg {
 
   main {
     width: min(1240px, calc(100% - 20px));
+  }
+
+  .header-actions,
+  .language-switcher {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .language-switcher select {
+    width: 100%;
+  }
+
+  .audio-status {
+    right: 14px;
+    bottom: 14px;
+    left: 14px;
+    border-radius: 18px;
+    text-align: center;
   }
 
   .hero-copy h1,
